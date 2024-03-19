@@ -22,6 +22,7 @@ def process_images(input_folder_path, output_folder_path, augmentation_type, *ar
     for filename in os.listdir(input_folder_path):
         if filename.endswith(".jpg") or filename.endswith(".png"):
             # Load image
+            name=filename[:-4]
             image_path = os.path.join(input_folder_path, filename)
             txt_path = os.path.join(input_folder_path, filename[:-4] + ".txt")
 
@@ -29,11 +30,13 @@ def process_images(input_folder_path, output_folder_path, augmentation_type, *ar
             augmented_image, transformed_annotations = apply_augmentation(image_path, txt_path, augmentation_type, *args)
 
             # Save augmented image
-            aug_filename=f'{filename}_{augmentation_type}.txt'
-            output_image_path = os.path.join(output_folder_path, aug_filename)
+            img_aug_filename=f'{name}_{augmentation_type}.jpg'
+            output_image_path = os.path.join(output_folder_path, img_aug_filename)
+            # print(img_aug_filename)
             save_image(augmented_image, output_image_path)
 
             # Save annotations
-            output_txt_path = os.path.join(output_folder_path, aug_filename[:-4] + ".txt")
+            # text_aug_filename=f'{filename}_{augmentation_type}.txt'
+            output_txt_path = os.path.join(output_folder_path, img_aug_filename[:-4] + ".txt")
             save_annotations(transformed_annotations, output_txt_path)
 
